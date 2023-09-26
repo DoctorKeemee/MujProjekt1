@@ -1,2 +1,2 @@
-# OpenSourceRepoTemplate
-OpenSourceRepoTemplate
+# MujProjekt
+Test Editace
