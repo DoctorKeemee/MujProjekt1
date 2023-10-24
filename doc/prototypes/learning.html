@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Learning Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .word-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 2px 2px 5px #aaa;
+            width: 300px;
+            text-align: center;
+        }
+        .word {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .definition {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<div class="word-card">
+    <div class="word" id="word">Word of the Day</div>
+    <div class="definition" id="definition">Definition: A description of the word will appear here.</div>
+</div>
+
+<script>
+    // Replace this with your list of words and definitions
+    const wordList = [
+        { word: "Ubiquitous", definition: "Existing or being everywhere at the same time" },
+        { word: "Sycophant", definition: "A person who acts obsequiously towards someone important" },
+        { word: "Ephemeral", definition: "Lasting for a very short time" }
+        // Add more words and definitions as needed
+    ];
+
+    const wordElement = document.getElementById("word");
+    const definitionElement = document.getElementById("definition");
+
+    let currentIndex = 0;
+
+    // Function to display the next word and definition
+    function displayNextWord() {
+        if (currentIndex < wordList.length) {
+            wordElement.textContent = wordList[currentIndex].word;
+            definitionElement.textContent = "Definition: " + wordList[currentIndex].definition;
+            currentIndex++;
+        } else {
+            currentIndex = 0; // Loop back to the first word
+        }
+    }
+
+    // Initial display
+    displayNextWord();
+
+    // Click event to show the next word
+    wordElement.addEventListener("click", displayNextWord);
+</script>
+</body>
+</html>
