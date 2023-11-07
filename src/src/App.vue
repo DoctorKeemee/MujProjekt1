@@ -1,10 +1,12 @@
 <template>
 <!--  <button class="button">Button</button>-->
-  <Learning />
+<!--  <Learning />-->
+  <Practicing />
 </template>
 
 <script setup lang="ts">
-import Learning from "./components/Learning.vue";
+// import Learning from "./components/Learning.vue";
+import Practicing from "./components/Practicing.vue";
 </script>
 
 

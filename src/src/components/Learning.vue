@@ -4,13 +4,12 @@
   <button @click="exportToCSV" class="button red_button" > Export to XLSX</button>
   </nav>
   <div class="container" >
-
     <div class="word-card" >
     <div class="word" id="word">{{ currentWord }}</div>
     <div class="definition" id="definition">{{ currentDefinition }}</div>
   </div>
   <button @click="showNextWord" class="button green_button">Chápu to!</button>
-<input type="file" ref="fileInput" style="opacity: 0;" @change="importFromCSV" accept=".csv">
+  <input type="file" ref="fileInput" style="opacity: 0;" @change="importFromCSV" accept=".csv">
   </div>
 </template>
 
