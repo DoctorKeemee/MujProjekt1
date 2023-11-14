@@ -1,7 +1,7 @@
 <template>
   <nav class="menu">
-  <button @click="chooseFile" class="button darkorange">Import from XLSX</button>
-  <button @click="exportToCSV" class="button red_button" > Export to XLSX</button>
+    <button @click="chooseFile" class="button darkorange">Import from XLSX</button>
+    <button @click="exportToCSV" class="button red_button" > Export to XLSX</button>
   </nav>
   <div class="container" >
     <div class="word-card" >

@@ -1,12 +1,11 @@
 <template>
-<!--  <button class="button">Button</button>-->
-<!--  <Learning />-->
-  <Practicing />
+  <Navigation/>
+  <router-view/>
 </template>
 
 <script setup lang="ts">
-// import Learning from "./components/Learning.vue";
-import Practicing from "./components/Practicing.vue";
+import Navigation from "./components/Navigation.vue";
+import "bulma/css/bulma.css";
 </script>
 
 
