@@ -1,15 +1,10 @@
 <template>
-  <nav class="menu">
-    <button @click="chooseFile" class="button darkorange">Import from XLSX</button>
-    <button @click="exportToCSV" class="button red_button" > Export to XLSX</button>
-  </nav>
   <div class="container" >
     <div class="word-card" >
     <div class="word" id="word">{{ currentWord }}</div>
     <div class="definition" id="definition">{{ currentDefinition }}</div>
   </div>
   <button @click="showNextWord" class="button green_button">Chápu to!</button>
-  <input type="file" ref="fileInput" style="opacity: 0;" @change="importFromCSV" accept=".csv">
   </div>
 </template>
 
@@ -37,11 +32,6 @@
       },
     },
     methods: {
-      chooseFile() {
-        // Trigger the file input element when the button is clicked
-        var x = this.$refs?.fileInput as HTMLInputElement | null;
-        if(x != null)x.click();
-      },
       showNextWord() {
         if (this.currentIndex < this.wordList.length) {
           this.currentIndex++;
@@ -50,34 +40,8 @@
           this.currentIndex = 0; // Loop back to the first word
         }
       },
-      importFromCSV(event: Event){
-        const fileInput = event.target as HTMLInputElement | null;
-        if(fileInput==null)return;
-        const file = fileInput.files?.[0];
 
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const csvData = (e.target as FileReader).result as string; // Typecast to string
-            this.parseCSV(csvData);
-          };
-          reader.readAsText(file);
-        }
-      },
-      parseCSV(csvData: string) {
-        console.log(csvData);
-        const lines: string[] = csvData.split('\n');
-        this.wordList = [] as { word: string; definition: string; explained: boolean }[]
-        for (let i = 0; i < lines.length; i++) {
-          const word: string[] = lines[i] .split(';');
-          this.wordList.push({
-            word: word[0],
-            definition: word[1],
-            explained: false,
-          });
-        }
 
-      },
       exportToCSV(){
         //todo make a header
         //export data

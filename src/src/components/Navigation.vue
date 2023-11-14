@@ -19,7 +19,19 @@
   <RouterLink to="/" class="navbar-item">Domů</RouterLink>
   <RouterLink to="/practicing" class="navbar-item">Procvičování</RouterLink>
   <RouterLink to="/learning" class="navbar-item">Učení</RouterLink>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Data management
+        </a>
+
+        <div class="navbar-dropdown">
+        <a @click="chooseFile" class="navbar-item">Import XLSX</a>
+          <input type="file" ref="fileInput" style="opacity: 0;" @change="importFromCSV" accept=".csv">
+        <a @click="exportToCSV" class="navbar-item" > Export XLSX</a>
+      </div>
     </div>
+    </div>
+
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
@@ -47,7 +59,41 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Navigation"
+  name: "Navigation",
+  methods: {
+    chooseFile() {
+      // Trigger the file input element when the button is clicked
+      var x = this.$refs?.fileInput as HTMLInputElement | null;
+      if(x != null)x.click();
+    },
+    importFromCSV(event: Event){
+      const fileInput = event.target as HTMLInputElement | null;
+      if(fileInput==null)return;
+      const file = fileInput.files?.[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const csvData = (e.target as FileReader).result as string; // Typecast to string
+          this.parseCSV(csvData);
+        };
+        reader.readAsText(file);
+      }
+    },
+    parseCSV(csvData: string) {
+      console.log(csvData);
+      const lines: string[] = csvData.split('\n');
+      this.wordList = [] as { word: string; definition: string; explained: boolean }[]
+      for (let i = 0; i < lines.length; i++) {
+        const word: string[] = lines[i] .split(';');
+        this.wordList.push({
+          word: word[0],
+          definition: word[1],
+          explained: false,
+        });
+      }
+    },
+  }
 })
 </script>
 
