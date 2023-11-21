@@ -9,52 +9,50 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+  import { defineComponent } from "vue";
 
   export default defineComponent({
     name: "Learning",
     data() {
       return {
-        wordList: [
-          { word: "Ubiquitous", definition: "Existing or being everywhere at the same time", explained: false },
-          { word: "Sycophant", definition: "A person who acts obsequiously towards someone important", explained: false  },
-          { word: "Ephemeral", definition: "Lasting for a very short time", explained: false  }
-        ] as { word: string; definition: string; explained: boolean }[],
-        currentIndex: ref(0),
+        wordList: [ ] as { word: string; definition: string; explained: boolean; level: number }[],
       };
     },
     computed: {
       currentWord(){
+        if(this.wordList[this.currentIndex]==null) return "Bagr";
         return this.wordList[this.currentIndex].word;
       },
       currentDefinition(){
+        if(this.wordList[this.currentIndex]==null) return "plete";
         return this.wordList[this.currentIndex].definition;
       },
+      currentIndex(){
+        return this.wordList.indexOf(this.wordList.filter(function(element){ return !element.explained;})[0]);
+      }
     },
     methods: {
       showNextWord() {
-        if (this.currentIndex < this.wordList.length) {
-          this.currentIndex++;
-        } else {
-          //TODO return just new words
-          this.currentIndex = 0; // Loop back to the first word
-        }
+        this.wordList[this.currentIndex].explained = true;
+        this.saveWordList()
       },
-
-
-      exportToCSV(){
-        //todo make a header
-        //export data
-        const csvContent = "data:text/csv;charset=utf-8," + this.wordList.map((item) => {
-          return `${item.word};${item.definition}`;
-        }).join("\n");
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "wordList.csv");
-        document.body.appendChild(link); // Required for Firefox
-        link.click();
+      saveWordList(){
+        localStorage["wordList"] = JSON.stringify(this.wordList);
+        this.$router.go(0);
+      },
+    },
+    beforeMount: function () {
+      if (localStorage.getItem("wordList") === null) {
+        this.wordList = [{
+          word: "Ubiquitous",
+          definition: "Existing or being everywhere at the same time",
+          explained: false,
+          level: 5
+        },
+          {word: "Sycophant", definition: "A person who acts obsequiously towards someone important", explained: false, level: 5},
+          {word: "Ephemeral", definition: "Lasting for a very short time", explained: false, level: 5}];
+      } else{
+        this.wordList = JSON.parse(localStorage.getItem("wordList") as string);
       }
     }
   })

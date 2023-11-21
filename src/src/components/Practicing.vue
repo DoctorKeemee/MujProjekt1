@@ -11,18 +11,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Practicing",
   data() {
     return {
-    wordList: [
-      { word: "Ubiquitous", definition: "Existing or being everywhere at the same time", explained: false },
-      { word: "Sycophant", definition: "A person who acts obsequiously towards someone important", explained: false  },
-      { word: "Ephemeral", definition: "Lasting for a very short time", explained: false  }
-    ] as { word: string; definition: string; explained: boolean }[],
-    currentIndex: ref(0),
+    wordList: [ ] as { word: string; definition: string; explained: boolean; level: number }[],
     options: [] as string[],
       isActive: false,
       hasError: false
@@ -34,6 +29,11 @@ export default defineComponent({
   },
   currentDefinition(){
     return this.wordList[this.currentIndex].definition;
+  },
+  currentIndex(){
+    let candidates = this.wordList.filter(function(element){ return !element.explained;});
+    candidates.sort(function(a, b){return a.level - b.level});
+    return this.wordList.indexOf(candidates[0]);
   }},
   methods: {
     randomOptionsWords(numberOptions: number){
@@ -63,9 +63,36 @@ export default defineComponent({
   },
     IsTheWordCorrect(word:string){
       console.log(word==this.currentWord);
-      if (word == this.currentWord){this.isActive = true}
-    }
+      if (word == this.currentWord){
+        this.isActive = true
+        this.wordList[this.currentIndex].level++;
+      }else{
+        this.wordList[this.currentIndex].level--;
+        console.log(this.wordList[this.currentIndex].level);
+      }
+
+     //rozdelit na ulozeni a router go nahradit za pridani tlacitka nextword ktere udela go
+      this.saveWordList();
+    },
+    saveWordList(){
+      localStorage["wordList"] = JSON.stringify(this.wordList);
+      this.$router.go(0);
+    },
 },
+beforeMount: function () {
+  if (localStorage.getItem("wordList") === null) {
+    this.wordList = [{
+      word: "Ubiquitous",
+      definition: "Existing or being everywhere at the same time",
+      explained: false,
+      level: 5
+    },
+      {word: "Sycophant", definition: "A person who acts obsequiously towards someone important", explained: false, level: 5},
+      {word: "Ephemeral", definition: "Lasting for a very short time", explained: false, level: 5}];
+  } else{
+    this.wordList = JSON.parse(localStorage.getItem("wordList") as string);
+  }
+}
 })
 
 </script>

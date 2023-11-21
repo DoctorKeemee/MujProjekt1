@@ -46,20 +46,20 @@
     </div>
 
   </nav>
-
-
-
-
-
-
 </template>
 
 <script lang="ts">
 
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "Navigation",
+  data() {
+    return {
+      wordList: [ ] as { word: string; definition: string; explained: boolean; level: number | null }[],
+      currentIndex: ref(0),
+    };
+  },
   methods: {
     chooseFile() {
       // Trigger the file input element when the button is clicked
@@ -76,6 +76,8 @@ export default defineComponent({
         reader.onload = (e) => {
           const csvData = (e.target as FileReader).result as string; // Typecast to string
           this.parseCSV(csvData);
+          localStorage["wordList"] = JSON.stringify(this.wordList);
+          this.$router.go(0);
         };
         reader.readAsText(file);
       }
@@ -83,16 +85,31 @@ export default defineComponent({
     parseCSV(csvData: string) {
       console.log(csvData);
       const lines: string[] = csvData.split('\n');
-      this.wordList = [] as { word: string; definition: string; explained: boolean }[]
+      this.wordList = [] as { word: string; definition: string; explained: boolean; level: number }[]
       for (let i = 0; i < lines.length; i++) {
         const word: string[] = lines[i] .split(';');
         this.wordList.push({
           word: word[0],
           definition: word[1],
           explained: false,
+          level: 5
         });
       }
     },
+    exportToCSV(){
+      //todo make a header
+      //export data
+      const csvContent = "data:text/csv;charset=utf-8," + this.wordList.map((item) => {
+        return `${item.word};${item.definition}`;
+      }).join("\n");
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "wordList.csv");
+      document.body.appendChild(link); // Required for Firefox
+      link.click();
+    }
   }
 })
 </script>
