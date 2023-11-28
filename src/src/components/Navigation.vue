@@ -97,10 +97,12 @@ export default defineComponent({
       }
     },
     exportToCSV(){
+      this.wordList = JSON.parse(localStorage.getItem("wordList") as string);
       //todo make a header
+      let header = "Word;Definition;Level;Explained\n";
       //export data
-      const csvContent = "data:text/csv;charset=utf-8," + this.wordList.map((item) => {
-        return `${item.word};${item.definition}`;
+      const csvContent = "data:text/csv;charset=utf-8," + header + this.wordList.map((item) => {
+        return `${item.word};${item.definition};${item.level};${item.explained}`;
       }).join("\n");
 
       const encodedUri = encodeURI(csvContent);

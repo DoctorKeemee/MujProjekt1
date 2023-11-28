@@ -4,8 +4,9 @@
       <div class="definition" id="definition">{{ currentDefinition }}</div>
     </div>
     <div class="word-card" v-for="option in randomOptionsWords(3)" >
-      <button @click = "IsTheWordCorrect(option)" class="word button" :class="{ 'green_button': isActive }" id="word">{{ option }}</button>
+      <button @click = "deliverAnswer(option)" class="word button" :class="{ 'green_button': isSuccess && isTheWordCorrect(option) }" id="word">{{ option }}</button>
     </div>
+    <button class="next-word" :class="{ 'hidden': !isSuccess }" @click="nextWord()">Next word</button>
   </div>
 
 </template>
@@ -19,8 +20,7 @@ export default defineComponent({
     return {
     wordList: [ ] as { word: string; definition: string; explained: boolean; level: number }[],
     options: [] as string[],
-      isActive: false,
-      hasError: false
+      isSuccess: false
   };
   },
   computed: {
@@ -37,6 +37,16 @@ export default defineComponent({
   }},
   methods: {
     randomOptionsWords(numberOptions: number){
+      let allSelectedWords = {} as { [index: number]: string[] }
+
+      if (localStorage.getItem("selectedWords") === null) {
+      }else{
+        allSelectedWords = JSON.parse(localStorage.getItem("selectedWords") as string) as { [index: number]: string[] }
+        if(this.currentIndex in allSelectedWords) {
+          return allSelectedWords[this.currentIndex];
+        }
+      }
+
       if (numberOptions > this.wordList.length) {
         console.log("n must be less than the length of the list.");
         throw new Error("n must be less than the length of the list.")
@@ -51,33 +61,38 @@ export default defineComponent({
         }
       }
       //hodím si kostkou jestli má být druhý prvek na místě prvního nebo naopak
-      selectedWordsIndexes.sort(() => Math.random()-0.5)
+      selectedWordsIndexes.sort(() => Math.random()-0.5);
 
-      var selectedWords = [] as string[];
+      let selectedWords = [] as string[];
       for (let i = 0; i < selectedWordsIndexes.length; i++) {
         console.log(i);
         selectedWords.push(this.wordList[selectedWordsIndexes[i]].word);
       }
+      allSelectedWords[this.currentIndex] = selectedWords;
+      localStorage["selectedWords"] = JSON.stringify(allSelectedWords);
     return selectedWords;
 
   },
-    IsTheWordCorrect(word:string){
-      console.log(word==this.currentWord);
-      if (word == this.currentWord){
-        this.isActive = true
+    isTheWordCorrect(word:string){
+      return word == this.currentWord;
+    },
+    deliverAnswer(word:string){
+      console.log(this.isTheWordCorrect(word));
+      if (this.isTheWordCorrect(word)){
         this.wordList[this.currentIndex].level++;
+        this.isSuccess = true;
       }else{
         this.wordList[this.currentIndex].level--;
         console.log(this.wordList[this.currentIndex].level);
       }
-
-     //rozdelit na ulozeni a router go nahradit za pridani tlacitka nextword ktere udela go
       this.saveWordList();
     },
     saveWordList(){
       localStorage["wordList"] = JSON.stringify(this.wordList);
-      this.$router.go(0);
     },
+    nextWord(){
+      this.$router.go(0);
+    }
 },
 beforeMount: function () {
   if (localStorage.getItem("wordList") === null) {
@@ -101,13 +116,17 @@ beforeMount: function () {
 
 <style scoped>
 .button{
-  color: antiquewhite;
+  color: rgba(0, 0, 0, 0.99);
   font-size: larger;
   padding: 5px;
   margin: 5px;
 }
+.next-word{
+  background: whitesmoke ;
+  color: black ;
+}
 .green_button {
-  background: green;
+  background: greenyellow;
 }
 .word-card {
   border: 1px solid #ccc;
@@ -130,6 +149,10 @@ beforeMount: function () {
   font-weight: bold;
   margin-top: 10px;
   font-size: 18px;
+}
+
+.hidden{
+  display: none;
 }
 
 </style>
