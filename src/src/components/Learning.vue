@@ -1,10 +1,13 @@
 <template>
   <div class="container" >
-    <div class="word-card" >
-    <div class="word" id="word">{{ currentWord }}</div>
-    <div class="definition" id="definition">{{ currentDefinition }}</div>
-  </div>
-  <button @click="showNextWord" class="button green_button">Chápu to!</button>
+    <div class="word-card" :class="{ 'hidden': learnedAll}">
+      <div class="word" id="word">{{ currentWord }}</div>
+      <div class="definition" id="definition">{{ currentDefinition }}</div>
+    </div>
+    <p class = "paragraph" :class="{ 'hidden': !learnedAll}"> You are the best
+       </p>
+    <RouterLink to="/practicing" class="button green_button" :class="{ 'hidden': !learnedAll}">Procvičování</RouterLink>
+  <button @click="showNextWord" class="button green_button"  :class="{ 'hidden': learnedAll}">Chápu to!</button>
   </div>
 </template>
 
@@ -16,15 +19,19 @@
     data() {
       return {
         wordList: [ ] as { word: string; definition: string; explained: boolean; level: number }[],
+        learnedAll: false
       };
     },
     computed: {
       currentWord(){
-        if(this.wordList[this.currentIndex]==null) return "Bagr";
+        if(this.wordList[this.currentIndex]==undefined) {
+          this.learnedAll = true
+          return null;
+        }
         return this.wordList[this.currentIndex].word;
       },
       currentDefinition(){
-        if(this.wordList[this.currentIndex]==null) return "plete";
+        if(this.wordList[this.currentIndex]==undefined)return null;
         return this.wordList[this.currentIndex].definition;
       },
       currentIndex(){
@@ -106,5 +113,16 @@ nav{
 .definition {
   margin-top: 10px;
   font-size: 18px;
+}
+.hidden{
+  display: none;
+}
+.paragraph{
+  color: #ababab;
+  background: black;
+  padding: 10px;
+  margin: 10px;
+  font-size: larger;
+  font-weight: bold;
 }
 </style>

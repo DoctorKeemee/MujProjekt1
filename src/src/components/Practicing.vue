@@ -25,18 +25,25 @@ export default defineComponent({
   },
   computed: {
   currentWord(){
+    if (this.currentIndex<0)return "";
     return this.wordList[this.currentIndex].word;
   },
   currentDefinition(){
+    if (this.currentIndex<0)return "";
     return this.wordList[this.currentIndex].definition;
   },
-  currentIndex(){
-    let candidates = this.wordList.filter(function(element){ return !element.explained;});
+    currentIndex(){
+    let candidates = this.wordList.filter(function(element){ return element.explained;});
+    if(candidates.length==0){
+      this.$router.push({ path: '/learning' });
+      return -1;
+    };
     candidates.sort(function(a, b){return a.level - b.level});
     return this.wordList.indexOf(candidates[0]);
   }},
   methods: {
     randomOptionsWords(numberOptions: number){
+      if (this.currentIndex<0)return [];
       let allSelectedWords = {} as { [index: number]: string[] }
 
       if (localStorage.getItem("selectedWords") === null) {

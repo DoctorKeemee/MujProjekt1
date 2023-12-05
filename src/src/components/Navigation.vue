@@ -86,19 +86,19 @@ export default defineComponent({
       console.log(csvData);
       const lines: string[] = csvData.split('\n');
       this.wordList = [] as { word: string; definition: string; explained: boolean; level: number }[]
-      for (let i = 0; i < lines.length; i++) {
+      for (let i = 1; i < lines.length; i++) {
         const word: string[] = lines[i] .split(';');
+        if(word.length<4)continue;
         this.wordList.push({
           word: word[0],
           definition: word[1],
-          explained: false,
-          level: 5
+          explained: word[2].toLowerCase() == "true",
+          level: parseInt(word[3])
         });
       }
     },
     exportToCSV(){
       this.wordList = JSON.parse(localStorage.getItem("wordList") as string);
-      //todo make a header
       let header = "Word;Definition;Level;Explained\n";
       //export data
       const csvContent = "data:text/csv;charset=utf-8," + header + this.wordList.map((item) => {
