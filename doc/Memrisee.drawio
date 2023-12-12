@@ -1,26 +1,108 @@
-<mxfile host="app.diagrams.net" modified="2023-12-12T18:20:41.614Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 OPR/104.0.0.0" etag="VuGxiUETKhGAP4gZQC2k" version="22.1.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-12-12T18:40:17.157Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 OPR/104.0.0.0" etag="a6TpMie0YxgXpV6H0BTR" version="22.1.8" type="github">
   <diagram name="Page-1" id="ixP1Anv0WGFjQ8SYdnVo">
     <mxGraphModel dx="1393" dy="789" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="Pb7jl8P6hlESrywVjSmg-1" value="Učení" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="400" width="120" height="60" as="geometry" />
+        <mxCell id="Pb7jl8P6hlESrywVjSmg-2" value="Procvičování" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="690" y="700" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Pb7jl8P6hlESrywVjSmg-2" value="Procvičování" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="400" width="120" height="60" as="geometry" />
+        <mxCell id="Pb7jl8P6hlESrywVjSmg-3" value="Nemám další slovíčka" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="670" y="440" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Pb7jl8P6hlESrywVjSmg-3" value="Nemám další slovíčka" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="320" y="620" width="120" height="60" as="geometry" />
+        <mxCell id="Pb7jl8P6hlESrywVjSmg-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="Pb7jl8P6hlESrywVjSmg-4" target="hnTAZQPYorkGGAXedbWV-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="280" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="Pb7jl8P6hlESrywVjSmg-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="Pb7jl8P6hlESrywVjSmg-4" target="Pb7jl8P6hlESrywVjSmg-1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="Pb7jl8P6hlESrywVjSmg-4" value="Start" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_2;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="Pb7jl8P6hlESrywVjSmg-4" value="Start" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_2;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="120" y="150" width="60" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Pb7jl8P6hlESrywVjSmg-5" value="Konec" style="ellipse;shape=doubleEllipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="660" width="60" height="60" as="geometry" />
+        <mxCell id="Pb7jl8P6hlESrywVjSmg-5" value="Konec" style="ellipse;shape=doubleEllipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="660" y="585" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-1" target="hnTAZQPYorkGGAXedbWV-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-1" value="Načtení stavu lekce&lt;br&gt;slovickaKProcviceni =&amp;nbsp; x&lt;br&gt;slovickaKNauceni = y" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="260" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-2" target="hnTAZQPYorkGGAXedbWV-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-12" value="Ne" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="hnTAZQPYorkGGAXedbWV-11">
+          <mxGeometry x="-0.55" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-17" value="Ano" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="hnTAZQPYorkGGAXedbWV-16">
+          <mxGeometry x="-0.5042" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-2" value="Více jak 2 slovíčka k procvičení?" style="rhombus;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="75" y="400" width="150" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-6" target="hnTAZQPYorkGGAXedbWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="354" y="360" />
+              <mxPoint x="185" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-6" value="Vysvětlení 1 slovíčka" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="305" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-10" target="hnTAZQPYorkGGAXedbWV-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-15" value="Ne" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="hnTAZQPYorkGGAXedbWV-14">
+          <mxGeometry x="0.24" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-10" value="Umí všechny slova &lt;br&gt;lekce?" style="rhombus;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="400" width="150" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-18" value="slovickaKProcviceni jsou slovicka, která&lt;br&gt;nedosáhla minimální úrovně znalosti&lt;br&gt;&amp;nbsp;a jsou již vysvětlena&lt;br&gt;&lt;br&gt;slovickaKDokonceni jsou slovíčka, která&lt;br&gt;nedosáhla maximální úrovně znalosti&lt;br&gt;a jsou již nad minimální úrovní" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="110" width="350" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-19" target="hnTAZQPYorkGGAXedbWV-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-19" value="Zobraz definici a možnosti" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="600" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-20" target="hnTAZQPYorkGGAXedbWV-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="630" />
+              <mxPoint x="480" y="340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-23" value="Ne" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="hnTAZQPYorkGGAXedbWV-22">
+          <mxGeometry x="-0.8667" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-20" target="hnTAZQPYorkGGAXedbWV-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-20" value="Odpověd je správná?" style="rhombus;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="570" width="115" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="hnTAZQPYorkGGAXedbWV-24" target="hnTAZQPYorkGGAXedbWV-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hnTAZQPYorkGGAXedbWV-24" value="Zvyš úroveň slovíčka" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="720" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
