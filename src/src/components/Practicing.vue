@@ -20,37 +20,41 @@ export default defineComponent({
     return {
     wordList: [ ] as { word: string; definition: string; explained: boolean; level: number }[],
     options: [] as string[],
-      isSuccess: false
+      isSuccess: false,
+      frozeCurrentIndex: -1
   };
   },
   computed: {
   currentWord(){
-    if (this.currentIndex<0)return "";
-    return this.wordList[this.currentIndex].word;
+    if (this.frozeCurrentIndex<0)return "";
+    return this.wordList[this.frozeCurrentIndex].word;
   },
   currentDefinition(){
-    if (this.currentIndex<0)return "";
-    return this.wordList[this.currentIndex].definition;
+    if (this.frozeCurrentIndex<0)return "";
+    return this.wordList[this.frozeCurrentIndex].definition;
   },
     currentIndex(){
-    let candidates = this.wordList.filter(function(element){ return element.explained;});
+    let candidates = this.wordList.filter(function(element){ return element.explained && element.level == null;});
+    if(candidates.length==0){
+      candidates = this.wordList.filter(function(element){ return element.explained && element.level < 10;});
+    }
     if(candidates.length==0){
       this.$router.push({ path: '/learning' });
       return -1;
-    };
+    }
     candidates.sort(function(a, b){return a.level - b.level});
     return this.wordList.indexOf(candidates[0]);
   }},
   methods: {
     randomOptionsWords(numberOptions: number){
-      if (this.currentIndex<0)return [];
+      if (this.frozeCurrentIndex<0)return [];
       let allSelectedWords = {} as { [index: number]: string[] }
 
       if (localStorage.getItem("selectedWords") === null) {
       }else{
         allSelectedWords = JSON.parse(localStorage.getItem("selectedWords") as string) as { [index: number]: string[] }
-        if(this.currentIndex in allSelectedWords) {
-          return allSelectedWords[this.currentIndex];
+        if(this.frozeCurrentIndex in allSelectedWords) {
+          return allSelectedWords[this.frozeCurrentIndex];
         }
       }
 
@@ -59,7 +63,7 @@ export default defineComponent({
         throw new Error("n must be less than the length of the list.")
       }
       let selectedWordsIndexes = [] as number[];
-      selectedWordsIndexes.push(this.currentIndex);
+      selectedWordsIndexes.push(this.frozeCurrentIndex);
 
       while (selectedWordsIndexes.length <= numberOptions - 1){
         const randomIndex = Math.floor(Math.random() * this.wordList.length);
@@ -75,7 +79,7 @@ export default defineComponent({
         console.log(i);
         selectedWords.push(this.wordList[selectedWordsIndexes[i]].word);
       }
-      allSelectedWords[this.currentIndex] = selectedWords;
+      allSelectedWords[this.frozeCurrentIndex] = selectedWords;
       localStorage["selectedWords"] = JSON.stringify(allSelectedWords);
     return selectedWords;
 
@@ -84,15 +88,17 @@ export default defineComponent({
       return word == this.currentWord;
     },
     deliverAnswer(word:string){
-      console.log(this.isTheWordCorrect(word));
-      if (this.isTheWordCorrect(word)){
-        this.wordList[this.currentIndex].level++;
-        this.isSuccess = true;
-      }else{
-        this.wordList[this.currentIndex].level--;
-        console.log(this.wordList[this.currentIndex].level);
+      if(!this.isSuccess) {
+        console.log(this.isTheWordCorrect(word));
+        if (this.isTheWordCorrect(word)) {
+          this.wordList[this.frozeCurrentIndex].level++;
+          this.isSuccess = true;
+        } else {
+          this.wordList[this.frozeCurrentIndex].level--;
+          console.log(this.wordList[this.frozeCurrentIndex].level);
+        }
+        this.saveWordList();
       }
-      this.saveWordList();
     },
     saveWordList(){
       localStorage["wordList"] = JSON.stringify(this.wordList);
@@ -113,6 +119,7 @@ beforeMount: function () {
       {word: "Ephemeral", definition: "Lasting for a very short time", explained: false, level: 5}];
   } else{
     this.wordList = JSON.parse(localStorage.getItem("wordList") as string);
+    this.frozeCurrentIndex = this.currentIndex;
   }
 }
 })
