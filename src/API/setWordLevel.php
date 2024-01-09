@@ -6,6 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode($response);
     exit();
 }
+
 $file_content = file_get_contents('php://input');
 $data = json_decode($file_content);
 
@@ -39,9 +40,19 @@ if (!is_numeric($data->level) || floor($data->level) != $data->level) {
     exit();
 }
 
+if (!isset($data->explained)) {
+    $data->explained = 1;
+}
+if (!is_numeric($data->explained) || floor($data->explained) != $data->explained || !($data->explained == 0 || $data->explained == 1)){
+        http_response_code(400); // Bad Request
+        $response = array('message' => "Explained must be 1 or 0.");
+        echo json_encode($response);
+        exit();
+}
+
 $level = intval($data->level);
 $word = htmlspecialchars($data->word);
-
+$explained = intval($data->explained);
 
 $servername = "sql5.webzdarma.cz";
 $username = "smartwordsbo0363";
@@ -69,8 +80,7 @@ if ($result->num_rows == 0) {
     exit();
 
 }
-
-$sql = "UPDATE Words SET Level = ".$level." WHERE Word = '".$word."';";
+$sql = "UPDATE Words SET Level = ".$level.", Explained = ".$explained."  WHERE Word = '".$word."';";
 $result = $conn->query($sql);
 
 // Check for success or failure
