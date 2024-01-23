@@ -1,5 +1,6 @@
 <template>
   <div class="container" >
+    <input v-model="userName" placeholder="user" />
     <div class="word-card" :class="{ 'hidden': learnedAll}">
       <div class="word" id="word">{{ currentWord }}</div>
       <div class="definition" id="definition">{{ currentDefinition }}</div>
@@ -14,17 +15,32 @@
 <script lang="ts">
   import { defineComponent } from "vue";
 
+  interface WordListItem {
+    word: string;
+    definition: string;
+    explained: boolean;
+    level: number;
+  }
+  interface WordListFromDBItem {
+    Word: string;
+    Definition: string;
+    Explained: string;
+    Level: string;
+  }
+
   export default defineComponent({
     name: "Learning",
     data() {
       return {
-        wordList: [ ] as { word: string; definition: string; explained: boolean; level: number }[],
-        learnedAll: false
+        wordList: [ ] as WordListItem[],
+        learnedAll: false,
+        userName: 'premek@man.eu.com'
       };
     },
     computed: {
       currentWord(){
         if(this.wordList[this.currentIndex]==undefined) {
+          this.loadNewWords();
           this.learnedAll = true
           return null;
         }
@@ -42,6 +58,56 @@
       showNextWord() {
         this.wordList[this.currentIndex].explained = true;
         this.saveWordList()
+      },
+      loadNewWords() {
+        const apiEndpoint = 'http://smartwords.borec.cz/getWords.php';
+        const postData = {
+          email: this.userName
+        };
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+            // You may need to include additional headers like authentication headers
+          },
+          body: JSON.stringify(postData)
+        };
+
+        fetch(apiEndpoint, requestOptions)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+              }
+              return response.json() as Promise<WordListFromDBItem[]>;
+            })
+            .then(data => {
+              // Assuming the response is an array of objects with properties word, definition, explained, and level
+              data.forEach(item => {
+                console.log("Prepare word...");
+                console.log(item);
+                if (!this.wordList.some(w => w.word === item.Word)) {
+                  console.log("Add word...");
+                  let intValue = parseInt(item.Level, 10);
+                  if (isNaN(intValue)) {
+                    intValue = 5;
+                  }
+                  // Add a new object to the wordList array
+                  this.wordList.push({
+                    word: item.Word,
+                    definition: item.Definition,
+                    explained: item.Explained == "1",
+                    level: intValue
+                  });
+                }
+              });
+              this.saveWordList();
+
+              // Print or use the updated wordList
+              console.log('Updated Word List:', this.wordList);
+            })
+            .catch(error => {
+              console.error('Fetch error:', error);
+            });
       },
       saveWordList(){
         localStorage["wordList"] = JSON.stringify(this.wordList);
