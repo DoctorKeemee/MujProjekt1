@@ -57,7 +57,34 @@
     methods: {
       showNextWord() {
         this.wordList[this.currentIndex].explained = true;
+        this.setWordLevel(this.wordList[this.currentIndex])
         this.saveWordList()
+      },
+      setWordLevel(word: WordListItem){
+        const apiEndpoint = 'http://smartwords.borec.cz/setWordLevel.php';
+        const postData = {
+          email: this.userName,
+          word:word.word,
+          level: word.level,
+          explained: word.explained?1:0
+        };
+        const requestOptions = {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+                // You may need to include additional headers like authentication headers
+              },
+          body: JSON.stringify(postData)
+        };
+        fetch(apiEndpoint, requestOptions)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+              }
+              if (response.ok) {
+                console.log("Word was saved succesfully");
+              }
+            });
       },
       loadNewWords() {
         const apiEndpoint = 'http://smartwords.borec.cz/getWords.php';
@@ -111,7 +138,7 @@
       },
       saveWordList(){
         localStorage["wordList"] = JSON.stringify(this.wordList);
-        this.$router.go(0);
+        //this.$router.go(0);
       },
     },
     beforeMount: function () {
