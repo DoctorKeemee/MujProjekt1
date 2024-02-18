@@ -1,6 +1,6 @@
 <template>
   <div class="container" >
-    <input v-model="userName" placeholder="user" />
+    <input v-model="userName" placeholder="user" type="hidden"/>
     <div class="word-card" :class="{ 'hidden': learnedAll}">
       <div class="word" id="word">{{ currentWord }}</div>
       <div class="definition" id="definition">{{ currentDefinition }}</div>

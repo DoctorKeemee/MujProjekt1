@@ -6,7 +6,7 @@
   >
     <div class="navbar-brand">
       <a class="navbar-item" href="https://bulma.io">
-        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/>
       </a>
 
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -17,8 +17,9 @@
     </div>
     <div class="navbar-start">
   <RouterLink to="/" class="navbar-item">Domů</RouterLink>
-  <RouterLink to="/practicing" class="navbar-item">Procvičování</RouterLink>
-  <RouterLink to="/learning" class="navbar-item">Učení</RouterLink>
+      <RouterLink to="/learning" class="navbar-item">Učení</RouterLink>
+      <RouterLink to="/practicing" class="navbar-item">Procvičování</RouterLink>
+
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
           Data management
@@ -26,23 +27,14 @@
 
         <div class="navbar-dropdown">
         <a @click="chooseFile" class="navbar-item">Import XLSX</a>
-          <input type="file" ref="fileInput" style="opacity: 0;" @change="importFromCSV" accept=".csv">
+          <input type="file" ref="fileInput" style="opacity: 0;" @change="importFromCSV" accept=".csv"/>
         <a @click="exportToCSV" class="navbar-item" > Export XLSX</a>
       </div>
     </div>
     </div>
 
     <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons">
-          <a class="button is-primary">
-            <strong>Sign up</strong>
-          </a>
-          <a class="button is-light">
-            Log in
-          </a>
-        </div>
-      </div>
+      <div class="navbar-item"/>
     </div>
 
   </nav>
