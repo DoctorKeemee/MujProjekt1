@@ -20,6 +20,7 @@
     definition: string;
     explained: boolean;
     level: number;
+    lastPracticing: number;
   }
   interface WordListFromDBItem {
     Word: string;
@@ -123,7 +124,8 @@
                     word: item.Word,
                     definition: item.Definition,
                     explained: item.Explained == "1",
-                    level: intValue
+                    level: intValue,
+                    lastPracticing: 0
                   });
                 }
               });
@@ -147,10 +149,13 @@
           word: "Ubiquitous",
           definition: "Existing or being everywhere at the same time",
           explained: false,
-          level: 5
+          level: 5,
+          lastPracticing: 0
         },
-          {word: "Sycophant", definition: "A person who acts obsequiously towards someone important", explained: false, level: 5},
-          {word: "Ephemeral", definition: "Lasting for a very short time", explained: false, level: 5}];
+          {word: "Sycophant", definition: "A person who acts obsequiously towards someone important", explained: false, level: 5,
+            lastPracticing: 0},
+          {word: "Ephemeral", definition: "Lasting for a very short time", explained: false, level: 5,
+            lastPracticing: 0}];
       } else{
         this.wordList = JSON.parse(localStorage.getItem("wordList") as string);
       }

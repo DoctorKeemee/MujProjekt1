@@ -48,7 +48,7 @@ export default defineComponent({
   name: "Navigation",
   data() {
     return {
-      wordList: [ ] as { word: string; definition: string; explained: boolean; level: number | null }[],
+      wordList: [ ] as { word: string; definition: string; explained: boolean; level: number | null; lastPracticing: number | null;}[],
       currentIndex: ref(0),
     };
   },
@@ -77,7 +77,7 @@ export default defineComponent({
     parseCSV(csvData: string) {
       console.log(csvData);
       const lines: string[] = csvData.split('\n');
-      this.wordList = [] as { word: string; definition: string; explained: boolean; level: number }[]
+      this.wordList = [] as { word: string; definition: string; explained: boolean; level: number; lastPracticing: number }[]
       for (let i = 1; i < lines.length; i++) {
         const word: string[] = lines[i] .split(';');
         if(word.length<4)continue;
@@ -85,7 +85,8 @@ export default defineComponent({
           word: word[0],
           definition: word[1],
           explained: word[2].toLowerCase() == "true",
-          level: parseInt(word[3])
+          level: parseInt(word[3]),
+          lastPracticing: 0
         });
       }
     },

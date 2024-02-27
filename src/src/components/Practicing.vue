@@ -4,9 +4,9 @@
       <div class="definition" id="definition">{{ currentDefinition }}</div>
     </div>
     <div class="word-card" v-for="option in randomOptionsWords(3)" >
-      <button @click = "deliverAnswer(option)" class="word button" :class="{ 'green_button': isSuccess && isTheWordCorrect(option) }" id="word">{{ option }}</button>
+      <button @click = "deliverAnswer(option)" class="word button" :class="{ 'green_button': isSuccess && isTheWordCorrect(option), 'red_button': isFailed && !isTheWordCorrect(option) && isTheWordLastAnswer(option) }" id="word">{{ option }}</button>
     </div>
-    <button class="next-word" :class="{ 'hidden': !isSuccess }" @click="nextWord()">Next word</button>
+    <button class="next-word" :class="{ 'hidden': !isSuccess && !isFailed }" @click="nextWord()">Next word</button>
   </div>
 
 </template>
@@ -18,10 +18,13 @@ export default defineComponent({
   name: "Practicing",
   data() {
     return {
-    wordList: [ ] as { word: string; definition: string; explained: boolean; level: number }[],
+    wordList: [ ] as { word: string; definition: string; explained: boolean; level: number; lastPracticing: number }[],
     options: [] as string[],
       isSuccess: false,
-      frozeCurrentIndex: -1
+      isFailed: false,
+      frozeCurrentIndex: -1,
+      repeatingCount: 2,
+      lastAnswer: null as string | null
   };
   },
   computed: {
@@ -43,6 +46,10 @@ export default defineComponent({
       return -1;
     }
     candidates.sort(function(a, b){return a.level - b.level});
+    candidates = candidates.slice(0, this.repeatingCount);
+    console.log(candidates);
+    candidates.sort(function(a, b){return a.lastPracticing - b.lastPracticing});
+    console.log(candidates);
     return this.wordList.indexOf(candidates[0]);
   }},
   methods: {
@@ -87,20 +94,29 @@ export default defineComponent({
     isTheWordCorrect(word:string){
       return word == this.currentWord;
     },
+    isTheWordLastAnswer(word:string){
+      return word == this.lastAnswer;
+    },
     deliverAnswer(word:string){
-      if(!this.isSuccess) {
+      if(!this.isSuccess && !this.isFailed) {
         console.log(this.isTheWordCorrect(word));
+        this.lastAnswer = word;
         if (this.isTheWordCorrect(word)) {
           this.wordList[this.frozeCurrentIndex].level++;
           this.isSuccess = true;
         } else {
           this.wordList[this.frozeCurrentIndex].level--;
+          this.isFailed = true;
           console.log(this.wordList[this.frozeCurrentIndex].level);
         }
         this.saveWordList();
       }
     },
     saveWordList(){
+      for (let i = 0; i < this.wordList.length; i++) {
+        this.wordList[i].lastPracticing--;
+      }
+      this.wordList[this.frozeCurrentIndex].lastPracticing = 0;
       localStorage["wordList"] = JSON.stringify(this.wordList);
     },
     nextWord(){
@@ -113,10 +129,13 @@ beforeMount: function () {
       word: "Ubiquitous",
       definition: "Existing or being everywhere at the same time",
       explained: false,
-      level: 5
+      level: 5,
+      lastPracticing: 0
     },
-      {word: "Sycophant", definition: "A person who acts obsequiously towards someone important", explained: false, level: 5},
-      {word: "Ephemeral", definition: "Lasting for a very short time", explained: false, level: 5}];
+      {word: "Sycophant", definition: "A person who acts obsequiously towards someone important", explained: false, level: 5,
+        lastPracticing: 0},
+      {word: "Ephemeral", definition: "Lasting for a very short time", explained: false, level: 5,
+        lastPracticing: 0}];
   } else{
     this.wordList = JSON.parse(localStorage.getItem("wordList") as string);
     this.frozeCurrentIndex = this.currentIndex;
@@ -141,6 +160,9 @@ beforeMount: function () {
 }
 .green_button {
   background: greenyellow;
+}
+.red_button {
+  background: darkred;
 }
 .word-card {
   border: 1px solid #ccc;
