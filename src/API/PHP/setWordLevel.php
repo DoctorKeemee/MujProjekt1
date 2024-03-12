@@ -78,7 +78,6 @@ if ($result->num_rows == 0) {
     $response = array('message' => "Word ".$word." wasn't found.");
     echo json_encode($response);
     exit();
-
 }
 $sql = "UPDATE Words SET Level = ".$level.", Explained = ".$explained."  WHERE Word = '".$word."';";
 $result = $conn->query($sql);
