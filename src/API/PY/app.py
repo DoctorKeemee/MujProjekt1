@@ -124,7 +124,7 @@ def set_word_level():
         cursor.execute(sql, data["word"])
         connection.commit()
         words = cursor.fetchall()
-        
+
         sql = ("SELECT * FROM users WHERE Email = %s")
         cursor.execute(sql, data['email'])
         connection.commit()
@@ -135,15 +135,29 @@ def set_word_level():
         if len(users) == 0:
             return jsonify({'message': 'User ' + data["email"] + ' does not exist.'}), 404
 
+        sql = ("SELECT * FROM wordstousers Where  IDWord = %s and IDUser = %s;")
+        cursor.execute(sql, (words[0]["ID"],users[0]['ID'] ) )
+        connection.commit()
+        wordstousers = cursor.fetchall()
 
-
-
-        sql = ("UPDATE wordstousers SET Level = %s, Explained = %s Where  IDWord = %s and IDUser = %s;")
-        cursor.execute(sql, (data["level"],data["explained"], words[0]["ID"],users[0]['ID'] ) )
-        if cursor.rowcount == 0:
-            return jsonify({'message': 'No rows updated.'})
+        if len(wordstousers) == 0:
+            #insert
+            sql = ("INSERT INTO wordstousers (Level, Explained, IDWord, IDUser) VALUES (%s, %s, %s, %s)")
+            cursor.execute(sql, (data["level"], data["explained"], words[0]["ID"], users[0]['ID']))
+            connection.commit()
+            if cursor.rowcount == 0:
+                return jsonify({'message': 'Insert failed.'}), 409
+            else:
+                return jsonify({'message': 'Insert successful.'}), 200
         else:
-            return jsonify({'message': 'Update successful.'})
+            #update
+            sql = ("UPDATE wordstousers SET Level = %s, Explained = %s Where  IDWord = %s and IDUser = %s;")
+            cursor.execute(sql, (data["level"],data["explained"], words[0]["ID"],users[0]['ID'] ) )
+            connection.commit()
+            if cursor.rowcount == 0:
+                return jsonify({'message': 'No rows updated.'}), 202
+            else:
+                return jsonify({'message': 'Update successful.'}), 200
 
     except Exception as e:
         return jsonify({'message': 'Error: ' + str(e)}), 500
