@@ -24,6 +24,21 @@ def isRightRequest(request):
         return False, jsonify({'message': 'Bad request.(empty data)'}), 400  # Bad Request
     return True, data
 
+def is_valid_email_in_data(data, check):
+    if not check:
+        return check, data
+    if 'email' not in data:
+        return False, jsonify({'message': "Bad request.(missing email)"}), 400 #Bad request
+    email = data['email']
+    if '@' not in email:
+        return False,jsonify({'message':'Bad request.(invalid email)'}), 400 #Bad request
+    split = email.split('@')
+    if len(split) != 2:
+        return False, jsonify({'message':'Bad request.(invalid email)'}), 400 #Bad request
+    if "." not in split[1]:
+        return False, jsonify({'message':'Bad request.(invalid email)'}), 400 #Bad request
+    return True, data
+
 @app.route('/createword', methods=['POST'])
 def insert_word():
     cursor, connection = None, None
@@ -59,18 +74,9 @@ def insert_word():
 def get_word():
     cursor, connection = None, None
     check, data = isRightRequest(request)
+    check, data = is_valid_email_in_data(data, check)
     if not check:
         return data
-    if 'email' not in data:
-        return jsonify({'message': "Bad request.(missing email)"}), 400 #Bad request
-    email = data['email']
-    if '@' not in email:
-        return jsonify({'message':'Bad request.(invalid email)'}), 400 #Bad request
-    split = email.split('@')
-    if len(split) != 2:
-        return jsonify({'message':'Bad request.(invalid email)'}), 400 #Bad request
-    if "." not in split[1]:
-        return jsonify({'message':'Bad request.(invalid email)'}), 400 #Bad request
 
     try:
         connection = pymysql.connect(**db_config)
@@ -97,6 +103,7 @@ def get_word():
 def set_word_level():
     cursor, connection = None, None
     check, data = isRightRequest(request)
+    check, data = is_valid_email_in_data(data, check)
     if not check:
         return data
     if "level" not in data:
@@ -107,7 +114,7 @@ def set_word_level():
         return jsonify({'message': "New level must be an integer."}), 400  # Bad request
     if "explained" not in data:
         data["explained"] = 1
-    if not (data["explained"] is 1 or data["explained"] is 0):
+    if not (data["explained"] == 1 or data["explained"] == 0):
         return jsonify({'message': "Explained must be 1 or 0."}), 400 #Bad request
 
     try:
@@ -117,11 +124,22 @@ def set_word_level():
         cursor.execute(sql, data["word"])
         connection.commit()
         words = cursor.fetchall()
-        #vzit id slovícka a id uzivatele a nastavit LEvel a Explained v tabulce wordstousers
+        
+        sql = ("SELECT * FROM users WHERE Email = %s")
+        cursor.execute(sql, data['email'])
+        connection.commit()
+        users = cursor.fetchall()
+
         if len(words) == 0:
             return jsonify({'message': 'Word ' + data["word"] + ' does not exist.'}), 404
-        sql = ("UPDATE Words SET Level = %s, Explained = %s Where  Word = %s;")
-        cursor.execute(sql, (data["level"],["explained"], data["word"]) )
+        if len(users) == 0:
+            return jsonify({'message': 'User ' + data["email"] + ' does not exist.'}), 404
+
+
+
+
+        sql = ("UPDATE wordstousers SET Level = %s, Explained = %s Where  IDWord = %s and IDUser = %s;")
+        cursor.execute(sql, (data["level"],data["explained"], words[0]["ID"],users[0]['ID'] ) )
         if cursor.rowcount == 0:
             return jsonify({'message': 'No rows updated.'})
         else:
