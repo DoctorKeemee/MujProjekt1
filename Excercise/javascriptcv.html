@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+</head>>
+<body>
+
+<h2>What Can JavaScript Do?</h2>
+
+<p id="demo">JavaScript can change HTML content.</p>
+
+<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Click Me!</button>
+<script>
+    function numRecognise(num) {
+        if (num>0)
+        {
+            console.log("Číslo je kladné");
+        }
+        else if(num<0)
+        {
+            console.log("Číslo je zaporne");
+        }
+        else
+        {
+            console.log("Číslo je 0");
+        }
+
+    }
+
+
+
+    let name = 'Premek';
+    const age = 14;
+    let is_student = true;
+
+    console.log("Jméno: " + name);
+    console.log("Vek: " + age);
+    console.log("Je student: " + (is_student?"Ano":"Ne"));
+
+    let a = 5;
+    let b = 3;
+    let obvod = 2*a + 2*b;
+    let obsah = a*b;
+    console.log("obvod: " + obvod);
+    console.log("obsah: " + obsah);
+
+    numRecognise(-2);
+    numRecognise(2);
+    numRecognise(0);
+
+</script>
+</body>

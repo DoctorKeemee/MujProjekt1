@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/stats-js@1.0.1/src/Stats.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.145.0/build/three.min.js"></script>
+
+</head>
+<body>
+
+
+<script>
+    var stats = new Stats();
+    stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    stats.dom.style.position = 'absolute';
+    stats.dom.style.left = 'auto';
+    stats.dom.style.right = '0px';
+
+    document.body.appendChild(stats.dom);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;  // Moves the camera back a bit so we can see the scene
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const geometry = new THREE.BoxGeometry(); // Defines the shape of the object
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Defines the material of the object
+    const cube = new THREE.Mesh(geometry, material); // Creates a mesh by combining the geometry and the material
+    scene.add(cube);
+
+
+
+
+    function animate() {
+        stats.begin();
+        cube.rotation.x += 0.01;  // Rotates the cube
+        cube.rotation.y += 0.01;
+        renderer.render(scene, camera);
+        stats.end();
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+
+
+</script>
+</body>
+</html>

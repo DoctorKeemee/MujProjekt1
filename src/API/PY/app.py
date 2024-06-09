@@ -57,10 +57,19 @@ def insert_word():
     try:
         connection = pymysql.connect(**db_config)
         cursor = connection.cursor()
-        sql = "INSERT INTO Words (word, definition) VALUES (%s, %s)"
-        cursor.execute(sql, (word, definition))
+
+        sql = ("SELECT * FROM Words WHERE Word = %s")
+        cursor.execute(sql, data["word"])
         connection.commit()
-        return jsonify({'message': 'Insert successful'}), 200
+        words = cursor.fetchall()
+
+        if len(words) == 0:
+            sql = "INSERT INTO Words (word, definition) VALUES (%s, %s)"
+            cursor.execute(sql, (word, definition))
+            connection.commit()
+            return jsonify({'message': 'Insert successful'}), 201
+        else:
+            return jsonify({'message': 'Already exists'}), 406
 
     except Exception as e:
         return jsonify({'message': 'Error: ' + str(e)}), 500

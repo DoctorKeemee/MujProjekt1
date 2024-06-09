@@ -1,5 +1,8 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
+header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}";
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header("Access-Control-Allow-Headers: X-Requested-With");
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
     http_response_code(405); // Method Not Allowed
@@ -35,8 +38,6 @@ $dbname = "smartwordsbo0363";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 $conn->set_charset("utf8");
-
-
 
 // Check connection
 if ($conn->connect_error) {
