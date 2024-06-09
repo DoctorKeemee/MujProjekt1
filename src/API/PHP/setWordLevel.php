@@ -1,5 +1,9 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
+header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header("Access-Control-Allow-Headers: X-Requested-With");
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405); // Method Not Allowed
     $response = array('message' => "Invalid request method.");
@@ -79,7 +83,7 @@ if ($result->num_rows == 0) {
     echo json_encode($response);
     exit();
 }
-$sql = "UPDATE Words SET Level = ".$level.", Explained = ".$explained."  WHERE Word = '".$word."';";
+$sql = "UPDATE WordsToUsers SET Level = ".$level.", Explained = ".$explained."  WHERE IDWord = (SELECT w.ID FROM Words w WHERE w.Word = '".$word."') AND IDUser = (SELECT u.ID FROM Users u WHERE u.email='".$data->email."');";
 $result = $conn->query($sql);
 
 // Check for success or failure

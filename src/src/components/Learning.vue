@@ -62,7 +62,7 @@
         this.saveWordList()
       },
       setWordLevel(word: WordListItem){
-        const apiEndpoint = '/ setWordLevel.php';
+        const apiEndpoint = '/setWordLevel.php';
         const postData = {
           email: this.userName,
           word:word.word,
@@ -83,7 +83,7 @@
                 throw new Error(`Error: ${response.status} - ${response.statusText}`);
               }
               if (response.ok) {
-                console.log("Word was saved succesfully");
+                console.log("Word was saved successfully");
               }
             });
       },
@@ -145,63 +145,7 @@
     },
     beforeMount: function () {
       if (localStorage.getItem("wordList") === null) {
-        this.wordList = [{
-          word: "H",
-          definition: "Vodík",
-          explained: false,
-          level: 5,
-          lastPracticing: 0
-        },  
-            {word: "He", definition: "Helium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Li", definition: "Lithium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Be", definition: "Beryllium", explained: false, level: 5, lastPracticing: 0},
-            {word: "B", definition: "Bor", explained: false, level: 5, lastPracticing: 0},
-            {word: "C", definition: "Uhlík", explained: false, level: 5, lastPracticing: 0},
-            {word: "N", definition: "Dusík", explained: false, level: 5, lastPracticing: 0},
-            {word: "O", definition: "Kyslík", explained: false, level: 5, lastPracticing: 0},
-            {word: "F", definition: "Fluor", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ne", definition: "Neon", explained: false, level: 5, lastPracticing: 0},
-            {word: "Na", definition: "Sodík", explained: false, level: 5, lastPracticing: 0},
-            {word: "Mg", definition: "Hořčík", explained: false, level: 5, lastPracticing: 0},
-            {word: "Al", definition: "Hliník", explained: false, level: 5, lastPracticing: 0},
-            {word: "Si", definition: "Křemík", explained: false, level: 5, lastPracticing: 0},
-            {word: "P", definition: "Fosfor", explained: false, level: 5, lastPracticing: 0},
-            {word: "S", definition: "Síra", explained: false, level: 5, lastPracticing: 0},
-            {word: "Cl", definition: "Chlor", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ar", definition: "Argon", explained: false, level: 5, lastPracticing: 0},
-            {word: "K", definition: "Draslík", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ca", definition: "Vápník", explained: false, level: 5, lastPracticing: 0},
-            {word: "Sc", definition: "Skandium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ti", definition: "Titan", explained: false, level: 5, lastPracticing: 0},
-            {word: "V", definition: "Vanad", explained: false, level: 5, lastPracticing: 0},
-            {word: "Cr", definition: "Chrom", explained: false, level: 5, lastPracticing: 0},
-            {word: "Mn", definition: "Mangan", explained: false, level: 5, lastPracticing: 0},
-            {word: "Fe", definition: "Železo", explained: false, level: 5, lastPracticing: 0},
-            {word: "Co", definition: "Kobalt", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ni", definition: "Nikl", explained: false, level: 5, lastPracticing: 0},
-            {word: "Cu", definition: "Měď", explained: false, level: 5, lastPracticing: 0},
-            {word: "Zn", definition: "Zinek", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ga", definition: "Gallium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ge", definition: "Germanium", explained: false, level: 5, lastPracticing: 0},
-            {word: "As", definition: "Arsen", explained: false, level: 5, lastPracticing: 0},
-            {word: "Se", definition: "Selen", explained: false, level: 5, lastPracticing: 0},
-            {word: "Br", definition: "Brom", explained: false, level: 5, lastPracticing: 0},
-            {word: "Kr", definition: "Krypton", explained: false, level: 5, lastPracticing: 0},
-            {word: "Rb", definition: "Rubidium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Sr", definition: "Stroncium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Y", definition: "Yttrium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Zr", definition: "Zirkonium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Nb", definition: "Niob", explained: false, level: 5, lastPracticing: 0},
-            {word: "Mo", definition: "Molybden", explained: false, level: 5, lastPracticing: 0},
-            {word: "Tc", definition: "Technecium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ru", definition: "Ruthenium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Rh", definition: "Rhodium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Pd", definition: "Palladium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Ag", definition: "Stříbro", explained: false, level: 5, lastPracticing: 0},
-            {word: "Cd", definition: "Kadmium", explained: false, level: 5, lastPracticing: 0},
-            {word: "In", definition: "Indium", explained: false, level: 5, lastPracticing: 0},
-            {word: "Sn", definition: "Cín", explained: false, level: 5, lastPracticing: 0}
-        ];
+        this.loadNewWords();
       } else{
         this.wordList = JSON.parse(localStorage.getItem("wordList") as string);
       }
