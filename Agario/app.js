@@ -1,5 +1,5 @@
 
-let scene, camera, renderer, player, start, particles = [], enemies = [];
+let scene, camera, renderer, player, score, hits, start, particles = [], enemies = [];
 const particleCount = 100;
 const particleSize = 0.5;
 const enemyCount = 10;
@@ -18,6 +18,8 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
     start = Date.now();
+    score = 0;
+    hits = 0;
 
     //hrac
     const playerGeometry = new THREE.SphereGeometry(1, 32,32);
@@ -144,6 +146,12 @@ function animate() {
             particles.splice(index, 1);
             player.scale.x += 0.1;
             player.scale.y += 0.1;
+            score += 1;
+            hits += 1;
+            const myElement = document.getElementById("score");
+            myElement.innerHTML = score;
+            const myEnemies = document.getElementById("hits");
+            myEnemies.innerHTML = hits;
         }
     });
 

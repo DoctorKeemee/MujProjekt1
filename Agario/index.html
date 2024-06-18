@@ -10,12 +10,37 @@
     }
     canvas{
         display: block;
-    }}
+    }
+    #info {
+        position: absolute;
+        top: 10px;
+        width: 100%;
+        text-align: left;
+        z-index: 100;
+        display: block;
+        color: yellow;
+        font-size: xxx-large;
+        font-family: cursive;
+    }
+    #hits {
+        position: absolute;
+        top: 70px;
+        width: 100%;
+        text-align: left;
+        z-index: 100;
+        display: block;
+        color: red;
+        font-size: xxx-large;
+        font-family: cursive;
+    }
     </style>
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/three@0.137.5/build/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+<div id="info">Score: <span id="score"></span></div>
+<div id="hits">Enemy hits: <span id="hits"></span></div>
 
 <script type="module" src="app.js"></script>
 
